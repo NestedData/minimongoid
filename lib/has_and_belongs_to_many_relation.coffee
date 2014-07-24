@@ -1,3 +1,8 @@
+# From http://book.cakephp.org/2.0/en/models/associations-linking-models-together.html#hasandbelongstomany-habtm
+# The main difference between hasMany and HABTM is that a link between models in HABTM 
+# is not exclusive. For example, we’re about to join up our Recipe model with an 
+# Ingredient model using HABTM. Using tomatoes as an Ingredient for my grandma’s spaghetti 
+# recipe doesn’t “use up” the ingredient. I can also use it for a salad Recipe.
 class @HasAndBelongsToManyRelation extends @Relation
   constructor: (instance, klass, identifier, inverse_identifier, id, args...) ->
     @instance = instance

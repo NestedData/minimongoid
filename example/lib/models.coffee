@@ -74,7 +74,7 @@ class @Recipe extends Minimongoid
     @user_id == Meteor.userId()
 
   creator_name: ->
-    @r('user').username
+    @user().username
 
 
 class @Ingredient extends Minimongoid

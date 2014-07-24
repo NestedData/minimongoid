@@ -1,10 +1,11 @@
 {
-  "name": "minimongoid",
+  "name": "minimongoid-nesteddata",
+  "private": true,
   "description": "Mongoid inspired model architecture",
-  "author": "Dave Kaplan <dave@exygy.com>",
+  "author": "Jake Gaylor <jake@nesteddata.com>",
   "version": "0.8.8",
-  "homepage": "https://github.com/Exygy/minimongoid",
-  "git": "https://github.com/Exygy/minimongoid.git",
+  "homepage": "https://github.com/nesteddata/minimongoid",
+  "git": "https://github.com/nesteddata/minimongoid.git",
   "packages": {
     "underscore-string-latest": {}
   }
