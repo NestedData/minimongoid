@@ -17,7 +17,10 @@ class @Minimongoid
   # --- instance methods 
   constructor: (attr = {}, parent = null) ->
     if attr._id
-      @id = attr._id
+      if @constructor._object_id
+        @id = attr._id._str
+      else
+        @id = attr._id
       @_id = @id
     # set up errors var
 
@@ -80,7 +83,10 @@ class @Minimongoid
       unless foreign_key = has_many.foreign_key
         # can't use @constructor.name in production because it's been minified to "n"
         foreign_key = "#{_.singularize(@constructor.to_s().toLowerCase())}_id"
-      selector[foreign_key] = @id
+      if @constructor._object_id
+        selector[foreign_key] = new Meteor.Collection.ObjectID @id
+      else
+        selector[foreign_key] = @id
       # set up default class name, e.g. "has_many: users" ==> 'User'
       class_name = has_many.class_name || _.titleize(_.singularize(relation))
       @[relation] = do(relation, selector, class_name) ->
@@ -115,7 +121,6 @@ class @Minimongoid
           else
             return HasAndBelongsToManyRelation.new(@, global[class_name], inverse_identifier, identifier, @id)
 
-
   error: (field, message) ->
     @errors ||= []
     obj = {}
@@ -137,7 +142,6 @@ class @Minimongoid
 
     for k,v of attr
       @[k] = v
-
     # bail if invalid
     return @ if not @isValid()
 
@@ -185,6 +189,7 @@ class @Minimongoid
       @constructor.find(@id)
 
   # --- class variables
+  @_object_id: false
   @_collection: undefined
   @_type: undefined
   @_debug: false
@@ -252,10 +257,23 @@ class @Minimongoid
   @find: (selector = {}, options = {}) ->
     # unless you just pass an id, in which case it *does* fetch the first
     unless typeof selector == 'object'
+      if @_object_id
+        selector = new Meteor.Collection.ObjectID selector
       @first {_id: selector}, options
     else if selector instanceof Meteor.Collection.ObjectID
       @first {_id: selector}, options
     else
+      # handle objectIDs -- these would come from an external database entry e.g. Rails
+      if @_object_id
+        if selector and selector._id
+          if typeof selector._id is 'string'
+            selector._id = new Meteor.Collection.ObjectID selector._id
+          else if selector._id['$in']
+            # _.map(game_ids, function(x) { return new Meteor.Collection.ObjectID(x) })
+            selector._id['$in'] = _.map_object_id selector._id['$in']
+        if selector and selector._ids 
+          selector._ids = _.map(selector._ids, (id) -> new Meteor.Collection.ObjectID id)
+
       @_collection.find selector, options
 
 
@@ -266,7 +284,7 @@ class @Minimongoid
     @_collection.remove(selector)
 
 
-  # run a model init on all items in the collection
+  # run a model init on all items in the collection 
   @modelize: (cursor, parent = null) ->
     self = @
     models = cursor.map (i) -> self.init(i, parent)
