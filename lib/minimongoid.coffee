@@ -140,9 +140,13 @@ class @Minimongoid
     # reset errors before running isValid()
     @errors = false
 
+    # TODO: before_save hooks. array of function _.extend attr, fn_return_val
+    # bail if invalid
+
+    # mirror the updates locally
     for k,v of attr
       @[k] = v
-    # bail if invalid
+
     return @ if not @isValid()
 
     # attr['_type'] = @constructor._type if @constructor._type?
@@ -203,8 +207,9 @@ class @Minimongoid
   @embedded_in: null
   @embeds_many: []
 
+  # TODO: arrays of hooks vs fn that calls more fns
   # @after_save: null
-  # @before_save: null
+  # @before_save: []
   # @before_create: null
   # @after_create: null
 
