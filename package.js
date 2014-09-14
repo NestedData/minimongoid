@@ -25,7 +25,7 @@ Package.onUse(function (api) {
 
 Package.onTest(function (api) {
   var both = ['client', 'server'];
-  api.use(['minimongoid', 'tinytest'], both);
+  api.use(['nd:minimongoid', 'tinytest'], both);
   api.addFiles('tests/models.coffee', both);
   api.addFiles('tests/server_tests.coffee', ['server']);
   api.addFiles('tests/model_tests.coffee', both);
