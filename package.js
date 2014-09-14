@@ -1,23 +1,32 @@
 Package.describe({
-  summary: "Mongoid inspired model architecture"
+  name: "nd:minimongoid",
+  summary: "NestedData's model class based on minimongoid",
+  version: "0.0.1",
+  git: "https://github.com/nesteddata/minimongoid.git"
 });
 
-Package.on_use(function (api) {
+Package.onUse(function (api) {
+  api.versionsFrom("METEOR@0.9.0");
   var both = ['client', 'server'];
-  api.use(['underscore', 'underscore-string-latest', 'coffeescript'], both);
-  files = [
+  var dependencies = [
+    'underscore',
+    'mrt:underscore-string-latest@2.3.3',
+    'coffeescript'
+  ];
+  api.use(dependencies, both);
+  var files = [
     'lib/relation.coffee',
     'lib/has_many_relation.coffee',
     'lib/has_and_belongs_to_many_relation.coffee',
     'lib/minimongoid.coffee'
   ];
-  api.add_files(files, both);
+  api.addFiles(files, both);
 });
 
-Package.on_test(function (api) {
+Package.onTest(function (api) {
   var both = ['client', 'server'];
   api.use(['minimongoid', 'tinytest'], both);
-  api.add_files('tests/models.coffee', both);
-  api.add_files('tests/server_tests.coffee', ['server']);
-  api.add_files('tests/model_tests.coffee', both);
+  api.addFiles('tests/models.coffee', both);
+  api.addFiles('tests/server_tests.coffee', ['server']);
+  api.addFiles('tests/model_tests.coffee', both);
 });
