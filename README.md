@@ -1,7 +1,7 @@
 NestedData Model Class
 ===========
 
-Based upon minimongoid, a Mongoid inspired model architecture for your Meteor apps.  While much remains the same, there are some extras here such as onChange hooks (coming soon)
+Based upon minimongoid, a Mongoid inspired model architecture for your Meteor apps.  The intension of this fork is to add documentation and hooks.  The API is not guaranteed to be backward compatible with Minimongoid.
 
 # Usage
 Like most things in life, it's always easier to demonstrate by example.  Note that it's probably a good idea to stick models somewhere like /lib so they get loaded first -- and yes, you can use these same models on both client and server!
@@ -104,15 +104,21 @@ Map of property names to default values for that value.
 
 ### create: `attr={}`
 
-### where
+### where: `selector={}`, `options={}`
 
-### first
+Returns an array of models from this collection matching `selector` and `options`
 
-### last
+### first: `selector={}`, `options={}`
 
-### all
+returns a modelized findOne matching `selector` and `options`
 
-### find
+### last: `selector={}`, `options={}`
+
+### all: `options={}`
+
+returns `@where({}, options)`
+
+### find: `selector={}`, `options={}`
 
 ### count: `selector={}`, `options={}`
 
@@ -122,7 +128,7 @@ Returns the number of documents matching `selector` and `options`
 
 Remove all documents of the collection matching `selector`
 
-### modelize
+### modelize: `cursor`, `parent=null`
 
 ### to_s
 
@@ -203,9 +209,9 @@ Once you set up a relation that is *not* an embedded one (e.g. `belongs_to`, `ha
 # Testing
 There are some stupid simple tests that you can run:
 
-    mrt test-packages ./
+    meteor test-packages ./
 
-UPDATE: as of Meteor 0.6.5, these tests no longer seem to run (it says 0 of 0 passed). Haven't looked into it yet. 
+Then load up the meteor app in your browser `http://localhost:3000/`
 
 -----
-Created by Dave Kaplan of [Exygy](http://exygy.com), and originally derived from Mario Uher's [minimongoid](https://github.com/haihappen/minimongoid). 
+Created by Jake Gaylor of [NestedData](http://nesteddata.com). Derived from a work by Dave Kaplan of [Exygy](http://exygy.com), who originally derived the his work from Mario Uher's [minimongoid](https://github.com/haihappen/minimongoid).
