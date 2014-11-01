@@ -122,6 +122,8 @@ class @Minimongoid
             return HasAndBelongsToManyRelation.new(@, global[class_name], inverse_identifier, identifier, @id)
 
   error: (field, message) ->
+    # add an error. 
+    # TODO: should this be a private method?
     @errors ||= []
     obj = {}
     obj[field] = message
@@ -140,7 +142,7 @@ class @Minimongoid
     # reset errors before running isValid()
     @errors = false
 
-    # TODO: before_save hooks. array of function _.extend attr, fn_return_val
+    # TODO: before_save hooks. for each fn in the array of registered hooks call _.extend(attr, fn_return_val)
     # bail if invalid
 
     # mirror the updates locally
@@ -149,13 +151,16 @@ class @Minimongoid
 
     return @ if not @isValid()
 
-    # attr['_type'] = @constructor._type if @constructor._type?
+    # always store the current _type if it's set. Not sure what this is for
+    attr['_type'] = @constructor._type if @constructor._type?
     
+    # if the id isn't set it's because it hasn't been stored the first time yet.
     if @id?
       @constructor._collection.update @id, { $set: attr }
     else
       @id = @_id = @constructor._collection.insert attr
     
+    # TODO: 
     if @constructor.after_save
       @constructor.after_save(@)
 
@@ -221,7 +226,7 @@ class @Minimongoid
   @to_s: ->
     if @_collection then @_collection._name else "embedded"
 
-  @create: (attr) ->
+  @create: (attr={}) ->
     attr.createdAt ||= new Date()
     attr = @before_create(attr) if @before_create
     doc = @init(attr)

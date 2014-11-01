@@ -55,6 +55,125 @@ class @Recipe extends Minimongoid
     @user_id == Meteor.userId()
 ```
 
+### Common pattern for attaching models to the database
+
+```coffee
+@Things = new Mongo.Collection 'things',
+  transform: (doc) ->
+    new Thing doc
+```
+
+or
+
+```js
+Things = new Mongo.Collection('things', {
+  transform: function (doc) {
+    new Thing(doc)
+  }
+});
+```
+## Class Methods
+
+### _collection
+
+*required*
+
+Used to determine which collection backs the models.
+
+### _object_id: false
+
+Set to true if you need to use real object_ids instead of just strings
+
+### _type: undefined
+
+Set to tag each document with a type.
+
+### defaults: []
+
+### belongs_to: []
+
+### has_many: []
+
+### has_and_belongs_to_mang: []
+
+### embedded_in: null
+
+### embeds_many: []
+
+### create(attr={})
+
+### where
+
+### first
+
+### last
+
+### all
+
+### find
+
+### count
+
+### destroyAll
+
+### modelize
+
+### to_s
+
+returns the collection name
+
+
+## Instance API
+
+### constructor(attr={}, parent=null)
+
+`attr` is the initial state of the object. usually it will be a document from the database.
+
+### initializeRelations(attr={}, parent=null)
+
+`attr` is a set of attributes and values to load in using the included relations classes.
+
+Note: If the attribute name starts with `_id` it is ignored.
+
+Note: If the attribute name ends `_id` and it is an instance of `Mongo.ObjectID` then it's value is reassigned to the `_str` attribute of the ObjectID
+
+### save(attr={})
+
+`attr` is a set of attributes and values to be persisted to the db layer.
+
+Each key/value pair is set locally first for latency compensation.
+
+If the object was already persisted before this call to save then each `attr` will be persisted using `$set`. Otherwise it will be inserted.
+
+Calls before_save hooks before the mongo operations and after_save hooks after the mongo operations.
+
+Note: To persist the document the first time, use save(). create() will call save internally.
+
+Note: Fails if isValid() returns false
+
+### update
+
+Alias for save.
+
+### push
+
+### pull
+
+### del
+
+### destroy
+
+### reload
+
+### isValid
+
+### error(field, message)
+
+Sets an error on the object. Used inside of custom validate methods.
+
+Calls validate on the object and returns true if there were no errors
+
+
 
 ## Model relations
 Once you set up a relation that is *not* an embedded one (e.g. `belongs_to`, `has_many`, `has_one`), that relation will become a method on your model instance(s). For example if Recipe `belongs_to` User, then your recipe instance will have a function recipe.user() which will return the related user.
