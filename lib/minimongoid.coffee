@@ -170,18 +170,19 @@ class @Minimongoid
     @save(attr)
 
   # push to mongo array field
-  push: (data) -> 
+  push: (attr) -> 
     # TODO: should maybe do something like this; but it should know if we're pushing an embedded model and instantiate it...
-    # for name, value of data 
+    # for name, value of attr 
     #   # update locally 
     #   @[name].push value
 
     # addToSet to ensure uniqueness -- can't think of if/when we WOULDN'T want that??
-    @constructor._collection.update @id, {$addToSet: data}
+    @constructor._collection.update @id, {$addToSet: attr}
 
   # pull from mongo array field
-  pull: (data) ->
-    @constructor._collection.update @id, {$pull: data}
+  pull: (attr) ->
+    if attr
+      @constructor._collection.update @id, {$pull: attr}
 
   del: (field) ->
     unset = {}
@@ -292,7 +293,6 @@ class @Minimongoid
 
   @destroyAll: (selector = {}) ->
     @_collection.remove(selector)
-
 
   # run a model init on all items in the collection 
   @modelize: (cursor, parent=null) ->

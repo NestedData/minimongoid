@@ -114,9 +114,13 @@ Map of property names to default values for that value.
 
 ### find
 
-### count
+### count(selector={}, options={})
 
-### destroyAll
+Returns the number of documents matching `selector` and `options`
+
+### destroyAll(selector={})
+
+Remove all documents of the collection matching `selector`
 
 ### modelize
 
@@ -153,11 +157,11 @@ Note: To persist the document the first time, use save(). create() will call sav
 
 Note: Fails if isValid() returns false
 
-### update
+### update(attr={})
 
 Alias for save.
 
-### push
+### push(attr)
 
 convience method to update using $addToSet for each k/v pair.
 
