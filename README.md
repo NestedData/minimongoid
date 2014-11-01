@@ -80,29 +80,29 @@ Things = new Mongo.Collection('things', {
 
 Used to determine which collection backs the models.
 
-### _object_id: false
+### _object_id: `false`
 
 Set to true if you need to use real object_ids instead of just strings
 
-### _type: undefined
+### _type: `undefined`
 
 Set to tag each document with a type.
 
-### defaults: {}
+### defaults: `{}`
 
 Map of property names to default values for that value.
 
-### belongs_to: []
+### belongs_to: `[]`
 
-### has_many: []
+### has_many: `[]`
 
-### has_and_belongs_to_many: []
+### has_and_belongs_to_many: `[]`
 
-### embedded_in: null
+### embedded_in: `null`
 
-### embeds_many: []
+### embeds_many: `[]`
 
-### create(attr={})
+### create: `attr={}`
 
 ### where
 
@@ -114,11 +114,11 @@ Map of property names to default values for that value.
 
 ### find
 
-### count(selector={}, options={})
+### count: `selector={}`, `options={}`
 
 Returns the number of documents matching `selector` and `options`
 
-### destroyAll(selector={})
+### destroyAll: `selector={}`
 
 Remove all documents of the collection matching `selector`
 
@@ -135,7 +135,7 @@ returns the collection name
 
 `attr` is the initial state of the object. usually it will be a document from the database.
 
-### initializeRelations(attr={}, parent=null)
+### initializeRelations: `attr={}`, `parent=null`
 
 `attr` is a set of attributes and values to load in using the included relations classes.
 
@@ -143,7 +143,7 @@ Note: If the attribute name starts with `_id` it is ignored.
 
 Note: If the attribute name ends `_id` and it is an instance of `Mongo.ObjectID` then it's value is reassigned to the `_str` attribute of the ObjectID
 
-### save(attr={})
+### save: `attr={}`
 
 `attr` is a set of attributes and values to be persisted to the db layer.
 
@@ -157,19 +157,19 @@ Note: To persist the document the first time, use save(). create() will call sav
 
 Note: Fails if isValid() returns false
 
-### update(attr={})
+### update: `attr={}`
 
 Alias for save.
 
-### push(attr)
+### push: `attr`
 
 convience method to update using $addToSet for each k/v pair.
 
-### pull(attr)
+### pull: `attr`
 
 convience method to update using $pull for each k/v pair.
 
-### del(field)
+### del: `field`
 
 unsets the field from the object and persists the change
 
@@ -189,12 +189,11 @@ Usage: `obj = obj.reload()`
 
 returns true if there are no errors created by a call to validate.
 
-### error(field, message)
+### error `field`, `message`
 
 Sets an error on the object. Used inside of custom validate methods.
 
 Calls validate on the object and returns true if there were no errors
-
 
 
 ## Model relations
