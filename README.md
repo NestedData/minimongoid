@@ -4,7 +4,7 @@ NestedData Model Class
 Based upon minimongoid, a Mongoid inspired model architecture for your Meteor apps.  While much remains the same, there are some extras here such as onChange hooks (coming soon)
 
 # Usage
-Like most things in life, it's always easier to demonstrate by example. You can find a working example project in the /example directory. The below comes from the /lib/models.coffee file in that project. Note that it's probably a good idea to stick models somewhere like /lib so they get loaded first -- and yes, you can use these same models on both client and server!
+Like most things in life, it's always easier to demonstrate by example.  Note that it's probably a good idea to stick models somewhere like /lib so they get loaded first -- and yes, you can use these same models on both client and server!
 
 ```coffee
 class @Recipe extends Minimongoid
@@ -131,7 +131,7 @@ returns the collection name
 
 ## Instance API
 
-### constructor(attr={}, parent=null)
+### constructor: `attr={}`, `parent=null`
 
 `attr` is the initial state of the object. usually it will be a document from the database.
 
