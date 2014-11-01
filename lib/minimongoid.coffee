@@ -15,7 +15,7 @@ class @Minimongoid
   # attr: {}
 
   # --- instance methods 
-  constructor: (attr = {}, parent = null) ->
+  constructor: (attr = {}, parent=null) ->
     if attr._id
       if @constructor._object_id
         @id = attr._id._str
@@ -27,7 +27,7 @@ class @Minimongoid
     # initialize relation arrays to be an empty array, if they don't exist 
     @initializeRelations(attr, parent) if @id
 
-  initializeRelations: (attr = {}, parent = null) ->
+  initializeRelations: (attr = {}, parent=null) ->
     for habtm in @constructor.has_and_belongs_to_many
       # e.g. matchup.game_ids = []
       identifier = "#{_.singularize(habtm.name)}_ids"
@@ -43,7 +43,7 @@ class @Minimongoid
     # load in all the passed attrs 
     for name, value of attr
       continue if name.match(/^_id/)
-      if name.match(/_id$/) and (value instanceof Meteor.Collection.ObjectID)
+      if name.match(/_id$/) and (value instanceof Mongo.ObjectID)
         @[name] = value._str
       else if (embeds_many = _.findWhere(@constructor.embeds_many, {name: name}))
         # initialize a model with the appropriate attributes 
@@ -215,7 +215,7 @@ class @Minimongoid
 
 
   # --- class methods
-  @init: (attr, parent = null) ->
+  @init: (attr, parent=null) ->
     new @(attr, parent)
 
   @to_s: ->
@@ -290,7 +290,7 @@ class @Minimongoid
 
 
   # run a model init on all items in the collection 
-  @modelize: (cursor, parent = null) ->
+  @modelize: (cursor, parent=null) ->
     self = @
     models = cursor.map (i) -> self.init(i, parent)
     Relation.new self, models...
