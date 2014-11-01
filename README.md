@@ -1,3 +1,5 @@
+[ ![Codeship Status for NestedData/minimongoid](https://codeship.io/projects/f2fa5b70-442c-0132-16fa-0a815a57a9dd/status)](https://codeship.io/projects/44802)
+
 NestedData Model Class
 ===========
 
