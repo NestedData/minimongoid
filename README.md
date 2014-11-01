@@ -88,13 +88,15 @@ Set to true if you need to use real object_ids instead of just strings
 
 Set to tag each document with a type.
 
-### defaults: []
+### defaults: {}
+
+Map of property names to default values for that value.
 
 ### belongs_to: []
 
 ### has_many: []
 
-### has_and_belongs_to_mang: []
+### has_and_belongs_to_many: []
 
 ### embedded_in: null
 
@@ -157,15 +159,31 @@ Alias for save.
 
 ### push
 
-### pull
+convience method to update using $addToSet for each k/v pair.
 
-### del
+### pull(attr)
+
+convience method to update using $pull for each k/v pair.
+
+### del(field)
+
+unsets the field from the object and persists the change
 
 ### destroy
 
+if the object has been persisted then remove it from the database.
+
+Sets the local id and _id to null to indicate the lack of persistence.  Leaves the reset of the object intact in memory.
+
 ### reload
 
+Used to grab the object from the database and return a refreshed object.
+
+Usage: `obj = obj.reload()`
+
 ### isValid
+
+returns true if there are no errors created by a call to validate.
 
 ### error(field, message)
 

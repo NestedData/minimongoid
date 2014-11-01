@@ -203,7 +203,7 @@ class @Minimongoid
   @_type: undefined
   @_debug: false
 
-  @defaults: []
+  @defaults: {}
 
   @belongs_to: []
   @has_many: []
