@@ -15,6 +15,7 @@ class @Minimongoid
   # attr: {}
 
   # --- instance methods 
+  # given a document from the database (or from any source really) create an instance of the model
   constructor: (attr = {}, parent=null) ->
     if attr._id
       if @constructor._object_id
@@ -24,8 +25,10 @@ class @Minimongoid
       @_id = @id
     # set up errors var
 
-    # initialize relation arrays to be an empty array, if they don't exist 
-    @initializeRelations(attr, parent) if @id
+    # initialize relation arrays to be an empty array, if they don't exist.
+    # only initialize relations if the object has been persisted before
+    if @id
+      @initializeRelations(attr, parent) 
 
   initializeRelations: (attr = {}, parent=null) ->
     for habtm in @constructor.has_and_belongs_to_many
@@ -121,6 +124,7 @@ class @Minimongoid
           else
             return HasAndBelongsToManyRelation.new(@, global[class_name], inverse_identifier, identifier, @id)
 
+  # Sets an error on the object. Used inside of custom validate methods.
   error: (field, message) ->
     # add an error. 
     # TODO: should this be a private method?
@@ -129,11 +133,12 @@ class @Minimongoid
     obj[field] = message
     @errors.push obj
 
+  # returns true if there are no errors created by a call to validate.
   isValid: (attr = {}) -> 
     @validate()
     not @errors
 
-  # nothing by default
+  # nothing by default. intended to be overwritten
   validate: ->
     # if blah then @errors.blah = 'no, bad!' else @errors = false
     true
@@ -184,16 +189,21 @@ class @Minimongoid
     if attr
       @constructor._collection.update @id, {$pull: attr}
 
+  # unset a field from the object and persist the change
   del: (field) ->
     unset = {}
     unset[field] = ""
     @constructor._collection.update @id, {$unset: unset}
 
+  # if the object has been persisted then remove it from the database.
+  # Sets the local id and _id to null to indicate the lack of persistence.
+  # Leaves the reset of the object intact in memory.
   destroy: ->
     if @id?
       @constructor._collection.remove @id
       @id = @_id = null
 
+  # grab the object from the database and return a refreshed object
   reload: ->
     if @id?
       @constructor.find(@id)

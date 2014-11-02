@@ -1,12 +1,12 @@
 Package.describe({
   name: "nd:minimongoid",
   summary: "NestedData's model class based on minimongoid",
-  version: "0.0.1",
+  version: "0.0.2",
   git: "https://github.com/nesteddata/minimongoid.git"
 });
 
 Package.onUse(function (api) {
-  api.versionsFrom("METEOR@0.9.0");
+  api.versionsFrom("METEOR@1.0.0");
   var both = ['client', 'server'];
   var dependencies = [
     'underscore',

@@ -143,6 +143,8 @@ returns the collection name
 
 `attr` is the initial state of the object. usually it will be a document from the database.
 
+given a document from the database (or from any source really) create an instance of the model
+
 ### initializeRelations: `attr={}`, `parent=null`
 
 `attr` is a set of attributes and values to load in using the included relations classes.
@@ -195,13 +197,12 @@ Usage: `obj = obj.reload()`
 
 ### isValid
 
-returns true if there are no errors created by a call to validate.
+Calls validate on the object and returns true if there were no errors
 
 ### error `field`, `message`
 
 Sets an error on the object. Used inside of custom validate methods.
 
-Calls validate on the object and returns true if there were no errors
 
 
 ## Model relations
